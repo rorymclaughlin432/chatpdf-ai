@@ -7,9 +7,11 @@ import SubscriptionButton from "@/components/SubscriptionButton";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { eq } from "drizzle-orm"; */
-
+import FileUpload from "@/components/FileUpload";
+import { auth } from "@clerk/nextjs";
 export default async function Home() {
-  
+  const { userId } = await auth();
+  const isAuth = !!userId;
  /*  const isPro = await checkSubscription();
   let firstChat;
   if (userId) {
@@ -26,20 +28,11 @@ export default async function Home() {
             <h1 className="mr-3 text-5xl font-semibold">Chat with any PDF</h1>
           </div>
 
-         {/*  <div className="flex mt-2">
-            {isAuth && firstChat && (
-              <>
-                <Link href={`/chat/${firstChat.id}`}>
-                  <Button>
-                    Go to Chats <ArrowRight className="ml-2" />
-                  </Button>
-                </Link>
-                <div className="ml-3">
-                  <SubscriptionButton isPro={isPro} />
-                </div>
-              </>
+          <div className="w-full mt-4">
+            {isAuth && (
+               <FileUpload />
             )}
-          </div> */}
+          </div>
 
           <p className="max-w-xl mt-1 text-lg text-slate-600">
             Join millions of students, researchers and professionals to instantly

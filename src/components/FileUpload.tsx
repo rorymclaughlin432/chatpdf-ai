@@ -2,7 +2,7 @@
 import { Inbox, Loader2 } from "lucide-react";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { uploadFile } from "./s3";
+import { uploadFile } from "../lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -51,9 +51,9 @@ const FileUpload = () => {
         }
 
         mutate(data, {
-          onSuccess: (data) => {
-            console.log(data);
-            //toast.success(data.message);
+          onSuccess: ({chatIdData}) => {
+            toast.success("PDF uploaded successfully. Chat created!");
+            router.push(`/chat/${chatIdData}`);
           },
           onError: (err) => {
             toast.error("There was an error uploading your file");
@@ -70,29 +70,29 @@ const FileUpload = () => {
 
   return (
     <div className="p-2 bg-white rounded-xl">
-    <div
-      {...getRootProps({
-        className:
-          "border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 flex justify-center items-center flex-col",
-      })}
-    >
-      <input {...getInputProps()} />
-      {uploading || isPending  ? (
-        <>
-          {/* loading state */}
-          <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
-          <p className="mt-2 text-sm text-slate-400">
-            PDF is being uploaded...
-          </p>
-        </>
-      ) : (
-        <>
-          <Inbox className="w-10 h-10 text-blue-500" />
-          <p className="mt-2 text-sm text-slate-400">Upload PDF</p>
-        </>
-      )}
+      <div
+        {...getRootProps({
+          className:
+            "border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 flex justify-center items-center flex-col",
+        })}
+      >
+        <input {...getInputProps()} />
+        {uploading || isPending ? (
+          <>
+            {/* loading state */}
+            <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+            <p className="mt-2 text-sm text-slate-400">
+              PDF is being uploaded...
+            </p>
+          </>
+        ) : (
+          <>
+            <Inbox className="w-10 h-10 text-blue-500" />
+            <p className="mt-2 text-sm text-slate-400">Upload PDF</p>
+          </>
+        )}
+      </div>
     </div>
-  </div>
   );
 };
 

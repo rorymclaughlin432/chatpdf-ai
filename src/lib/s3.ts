@@ -14,7 +14,8 @@ export async function uploadFile(
       });
 
       const file_key =
-        "uploads/" + Date.now().toString() + file.name.replace(" ", "-");
+      'uploads/' + Date.now().toString() + file.name.replace(/\s/g, '-');
+        //"uploads/" + Date.now().toString() + file.name.replace(" ", "-");
 
       const params = {
         Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,

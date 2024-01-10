@@ -29,7 +29,6 @@ const FileUpload = () => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     multiple: false,
-    maxFiles: 1,
     onDrop: async (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file.size > 10 * 1024 * 1024) {
@@ -51,12 +50,13 @@ const FileUpload = () => {
         }
 
         mutate(data, {
-          onSuccess: ({chatIdData}) => {
-            toast.success("PDF uploaded successfully. Chat created!");
-            router.push(`/chat/${chatIdData}`);
+          onSuccess: ({ chat_id }) => {
+            toast.success("Chat created!");
+            router.push(`/chat/${chat_id}`);
           },
           onError: (err) => {
-            toast.error("There was an error uploading your file");
+            toast.error("Error creating chat");
+            console.error(err);
           },
         });
       } catch (error) {
